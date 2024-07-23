@@ -8,16 +8,29 @@
     <script src="./public/js/app.js"></script>
 </head>
 <body>
-    <div class="al-container">
-        <h2>Autômatos de pilha deterministicos</h2>
-        <form id="form" action="action.php" method="POST">
-            <div id="estadosContainer">
-                <h3>Estados</h3>
-                <button type="button">Adicionar Estado</button>
-            </div>
-            <button type="button" id="savedata">Salvar Dados</button>
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
+    <header>
+        <div class="al-container">
+            <h1>Autômatos de pilha deterministicos</h1>
+        </div>
+    </header>
+    <section class="form">
+        
+        <div class="left">
+            <form id="form" action="action.php" method="POST">
+                <div id="estadosContainer">
+                    <h2>Estados</h2>
+                    <button type="button">Adicionar Estado</button>
+                </div>
+            </form>
+        </div>
+        <div class="right">
+            <input type="text" name="string" id="string" placeholder="String">
+            <input type="text" name="estado_inicial" id="estado_inicial" placeholder="Estado Inicial">
+            <input type="text" name="estado_final" id="estado_final" placeholder="Estado Final">
+            <input type="text" name="pilha_inicial" id="pilha_inicial" placeholder="Pilha Inicial">
+            <button type="button" id="savedata" class="green">Salvar</button>
+            <button type="submit">Validar</button>
+        </div>
+    </section>
 </body>
 </html>
