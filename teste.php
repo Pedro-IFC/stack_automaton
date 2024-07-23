@@ -13,15 +13,10 @@ if ($jsonContent === false) {
 
 // Decodifica o JSON
 $data = json_decode($jsonContent, true);
-
-// Verifica se a decodificação foi bem-sucedida
 if (json_last_error() === JSON_ERROR_NONE) {
-    echo "<pre>";
-    var_dump($data);
-    echo "</pre>";
 } else {
     echo 'Erro na decodificação do JSON: ' . json_last_error_msg();
 }
-$status = automatoAP("ab", "q0", "f", $data, ["z0"]) ? "Válido" : "Falso";
+$status = automatoAP("aaabbab", "q0", "f", $data, ["z0"]) ? "Válido" : "Falso";
 echo $status;
 ?>

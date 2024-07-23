@@ -30,6 +30,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            position: relative;
         }
 
         .estado-div {
@@ -42,6 +43,18 @@
 
         .valor-pilha-div {
             background-color: #d9d9d9;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -57,9 +70,9 @@
             <button type="submit">Enviar</button>
         </form>
     </div>
-</body>
+
     <script>
-       let estadoCounter = 0;
+        let estadoCounter = 0;
         let entradaCounter = 0;
         let valorPilhaCounter = 0;
         let estadoAlvoCounter = 0;
@@ -91,8 +104,15 @@
             addEntradaBtn.innerText = 'Adicionar Entrada';
             addEntradaBtn.onclick = () => addEntrada(estadoDiv.id);
 
+            const removeEstadoBtn = document.createElement('button');
+            removeEstadoBtn.type = 'button';
+            removeEstadoBtn.innerText = 'Remover Estado';
+            removeEstadoBtn.className = 'remove-btn';
+            removeEstadoBtn.onclick = () => estadoDiv.remove();
+
             estadoDiv.appendChild(estadoInput);
             estadoDiv.appendChild(addEntradaBtn);
+            estadoDiv.appendChild(removeEstadoBtn);
 
             container.appendChild(estadoDiv);
 
@@ -123,8 +143,15 @@
             addValorPilhaBtn.innerText = 'Adicionar Valor de Pilha';
             addValorPilhaBtn.onclick = () => addValorPilha(entradaDiv.id);
 
+            const removeEntradaBtn = document.createElement('button');
+            removeEntradaBtn.type = 'button';
+            removeEntradaBtn.innerText = 'Remover Entrada';
+            removeEntradaBtn.className = 'remove-btn';
+            removeEntradaBtn.onclick = () => entradaDiv.remove();
+
             entradaDiv.appendChild(entradaInput);
             entradaDiv.appendChild(addValorPilhaBtn);
+            entradaDiv.appendChild(removeEntradaBtn);
 
             estadoDiv.appendChild(entradaDiv);
 
@@ -164,9 +191,16 @@
             addNovoValorPilhaBtn.innerText = 'Adicionar Novo Valor de Pilha';
             addNovoValorPilhaBtn.onclick = () => addNovoValorPilha(valorPilhaDiv.id);
 
+            const removeValorPilhaBtn = document.createElement('button');
+            removeValorPilhaBtn.type = 'button';
+            removeValorPilhaBtn.innerText = 'Remover Valor de Pilha';
+            removeValorPilhaBtn.className = 'remove-btn';
+            removeValorPilhaBtn.onclick = () => valorPilhaDiv.remove();
+
             valorPilhaDiv.appendChild(valorPilhaInput);
             valorPilhaDiv.appendChild(estadoAlvoInput);
             valorPilhaDiv.appendChild(addNovoValorPilhaBtn);
+            valorPilhaDiv.appendChild(removeValorPilhaBtn);
 
             entradaDiv.appendChild(valorPilhaDiv);
 
@@ -190,6 +224,7 @@
 
             valorPilhaDiv.appendChild(novoValorPilhaInput);
         }
+
         function getFormData() {
             const estadosContainer = document.getElementById('estadosContainer');
             const estados = estadosContainer.getElementsByClassName('estado-div');
@@ -234,6 +269,7 @@
             const data = getFormData();
             localStorage.setItem('formData', JSON.stringify(data));
         }
+
         function loadFormData() {
             const storedData = localStorage.getItem('formData');
             if (storedData) {
@@ -241,9 +277,11 @@
                     const data = JSON.parse(storedData);
                     data.forEach(estadoData => addEstado(estadoData));
                 } catch (error) {
+                    console.error('Erro ao carregar dados salvos:', error);
                 }
             }
         }
+
         function encodeFormData() {
             const estadosContainer = document.getElementById('estadosContainer');
             const estados = estadosContainer.getElementsByClassName('estado-div');
@@ -304,4 +342,5 @@
             });
         });
     </script>
+</body>
 </html>
