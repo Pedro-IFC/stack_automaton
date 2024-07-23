@@ -1,0 +1,40 @@
+#atendimento-arealocal {
+    background: url(../images/background_card.png);
+    background-size: cover;
+    color: #FFF;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#atendimento-arealocal >h2{
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 25px;
+}
+
+#atendimento-arealocal h2{
+    color: #fff;
+    font-weight: bold;
+}
+
+#atendimento-arealocal p:first-of-type{
+    font-size: 20px;
+    text-align: center;
+}
+#atendimento-arealocal p{
+    margin:0;
+}
+
+#atendimento-arealocal button span{
+    color: #FFF;
+}
+
+#atendimento-arealocal a {
+    color:#e0e047;
+    text-decoration: none;
+}
+
+#atendimento-arealocal  a:hover{
+    text-decoration: underline;
+}

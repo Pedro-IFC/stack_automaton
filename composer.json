@@ -1,0 +1,20 @@
+{
+  "name": "arealocaldesenvolvimento/areastructure",
+  "description": "area structure",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Área Local",
+      "email": "webmaster@arealocal.com.br"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "Source\\": "app/scripts/"
+    }
+  },
+  "require": {}
+}
