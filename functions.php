@@ -42,6 +42,10 @@ function automatoAP($str, $estadoI, $final, $delta, $pilha) {
                     }
                 }
             }
+        }else {
+            if($char!="&"){
+                return false;
+            }
         }
     }
     return $estadoAtual==$final;

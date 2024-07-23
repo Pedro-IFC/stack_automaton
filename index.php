@@ -14,7 +14,6 @@
         </div>
     </header>
     <section class="form">
-        
         <div class="left">
             <form id="form" action="action.php" method="POST">
                 <div id="estadosContainer">
@@ -29,7 +28,7 @@
             <input type="text" name="estado_final" id="estado_final" placeholder="Estado Final">
             <input type="text" name="pilha_inicial" id="pilha_inicial" placeholder="Pilha Inicial">
             <button type="button" id="savedata" class="green">Salvar</button>
-            <button type="submit">Validar</button>
+            <button type="submit" id="validate">Validar</button>
         </div>
     </section>
 </body>

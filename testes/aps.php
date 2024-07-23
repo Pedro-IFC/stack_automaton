@@ -29,7 +29,6 @@ $ab_iguais=[
     ],
     'f' => []
 ];
-echo json_encode($ab_iguais);
 //{a* b^i c^j / i!=j}
 $delta = [
     'q0' => [

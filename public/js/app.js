@@ -283,8 +283,7 @@ function encodeFormData() {
   return JSON.stringify(result, null, 2);
 }
 document.addEventListener('DOMContentLoaded', function (event) {
-  document.getElementById('form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Impede o envio padrão do formulário
+  document.getElementById('validate').addEventListener('click', function (event) {
     fetch('./action.php', {
       method: 'POST',
       headers: {
