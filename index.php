@@ -26,7 +26,7 @@
             <input type="text" name="string" id="string" placeholder="String">
             <input type="text" name="estado_inicial" id="estado_inicial" placeholder="Estado Inicial">
             <input type="text" name="estado_final" id="estado_final" placeholder="Estado Final">
-            <input type="text" name="pilha_inicial" id="pilha_inicial" placeholder="Pilha Inicial">
+            <input type="text" name="pilha_inicial" id="pilha_inicial" placeholder='Pilha Inicial separe por ","'>
             <button type="button" id="savedata" class="green">Salvar</button>
             <button type="submit" id="validate">Validar</button>
         </div>

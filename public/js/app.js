@@ -232,6 +232,13 @@ function getFormData() {
 function saveFormData() {
   var data = getFormData();
   localStorage.setItem('formData', JSON.stringify(data));
+  var form = {
+    string: document.querySelector('input[name="string"]').value,
+    estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
+    estado_final: document.querySelector('input[name="estado_final"]').value,
+    pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value
+  };
+  localStorage.setItem('form', JSON.stringify(form));
 }
 function loadFormData() {
   var storedData = localStorage.getItem('formData');
@@ -245,6 +252,54 @@ function loadFormData() {
       console.error('Erro ao carregar dados salvos:', error);
     }
   }
+  var form = localStorage.getItem('form');
+  if (form) {
+    try {
+      var formData = JSON.parse(form);
+      document.querySelector('input[name="string"]').value = formData.string;
+      document.querySelector('input[name="estado_inicial"]').value = formData.estado_inicial;
+      document.querySelector('input[name="estado_final"]').value = formData.estado_final;
+      document.querySelector('input[name="pilha_inicial"]').value = formData.pilha_inicial;
+    } catch (error) {
+      console.error('Erro ao carregar dados salvos:', error);
+    }
+  }
+}
+function notEncodedFormData() {
+  var estadosContainer = document.getElementById('estadosContainer');
+  var estados = estadosContainer.getElementsByClassName('estado-div');
+  var result = {};
+  Array.from(estados).forEach(function (estadoDiv) {
+    var estadoName = estadoDiv.querySelector('.estado').value;
+    if (!estadoName) return; // Ignora se o nome do estado estiver vazio
+
+    var estadoData = {};
+    var entradas = estadoDiv.getElementsByClassName('entrada-div');
+    Array.from(entradas).forEach(function (entradaDiv) {
+      var entradaName = entradaDiv.querySelector('.entrada').value;
+      if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
+
+      var entradaData = {};
+      var valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
+      Array.from(valoresPilha).forEach(function (valorPilhaDiv) {
+        var valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
+        if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
+
+        var valorPilhaValue = [];
+        var estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
+        valorPilhaValue.push(estadoAlvo);
+        var novosValoresPilha = valorPilhaDiv.getElementsByClassName('novo_valor_pilha');
+        var novosValoresPilhaArray = Array.from(novosValoresPilha).map(function (input) {
+          return input.value;
+        });
+        valorPilhaValue.push(novosValoresPilhaArray);
+        entradaData[valorPilhaName] = valorPilhaValue;
+      });
+      estadoData[entradaName] = entradaData;
+    });
+    result[estadoName] = estadoData;
+  });
+  return result;
 }
 function encodeFormData() {
   var estadosContainer = document.getElementById('estadosContainer');
@@ -284,12 +339,19 @@ function encodeFormData() {
 }
 document.addEventListener('DOMContentLoaded', function (event) {
   document.getElementById('validate').addEventListener('click', function (event) {
+    var form = {
+      string: document.querySelector('input[name="string"]').value,
+      estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
+      estado_final: document.querySelector('input[name="estado_final"]').value,
+      pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
+      delta: notEncodedFormData()
+    };
     fetch('./action.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: encodeFormData()
+      body: JSON.stringify(form)
     }).then(function (response) {
       return response.json();
     }).then(function (data) {

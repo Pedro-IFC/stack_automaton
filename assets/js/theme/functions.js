@@ -190,6 +190,13 @@ function getFormData() {
 function saveFormData() {
 	const data = getFormData();
 	localStorage.setItem('formData', JSON.stringify(data));
+	let form = {
+		string: document.querySelector('input[name="string"]').value,
+		estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
+		estado_final: document.querySelector('input[name="estado_final"]').value,
+		pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value,
+	};
+	localStorage.setItem('form', JSON.stringify(form));
 }
 
 function loadFormData() {
@@ -202,8 +209,60 @@ function loadFormData() {
 			console.error('Erro ao carregar dados salvos:', error);
 		}
 	}
+	const form = localStorage.getItem('form');
+	if(form){
+		try {
+			const formData = JSON.parse(form);
+			document.querySelector('input[name="string"]').value = formData.string;
+			document.querySelector('input[name="estado_inicial"]').value = formData.estado_inicial;
+			document.querySelector('input[name="estado_final"]').value = formData.estado_final;
+			document.querySelector('input[name="pilha_inicial"]').value = formData.pilha_inicial;
+		} catch (error) {
+			console.error('Erro ao carregar dados salvos:', error);
+		}
+	}
 }
+function notEncodedFormData() {
+	const estadosContainer = document.getElementById('estadosContainer');
+	const estados = estadosContainer.getElementsByClassName('estado-div');
+	const result = {};
 
+	Array.from(estados).forEach((estadoDiv) => {
+		const estadoName = estadoDiv.querySelector('.estado').value;
+		if (!estadoName) return; // Ignora se o nome do estado estiver vazio
+
+		const estadoData = {};
+
+		const entradas = estadoDiv.getElementsByClassName('entrada-div');
+		Array.from(entradas).forEach((entradaDiv) => {
+			const entradaName = entradaDiv.querySelector('.entrada').value;
+			if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
+
+			const entradaData = {};
+
+			const valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
+			Array.from(valoresPilha).forEach((valorPilhaDiv) => {
+				const valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
+				if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
+
+				const valorPilhaValue = [];
+				const estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
+				valorPilhaValue.push(estadoAlvo);
+
+				const novosValoresPilha = valorPilhaDiv.getElementsByClassName('novo_valor_pilha');
+				const novosValoresPilhaArray = Array.from(novosValoresPilha).map(input => input.value);
+				valorPilhaValue.push(novosValoresPilhaArray);
+
+				entradaData[valorPilhaName] = valorPilhaValue;
+			});
+
+			estadoData[entradaName] = entradaData;
+		});
+
+		result[estadoName] = estadoData;
+	});
+	return result; 
+}
 function encodeFormData() {
 	const estadosContainer = document.getElementById('estadosContainer');
 	const estados = estadosContainer.getElementsByClassName('estado-div');
@@ -247,12 +306,19 @@ function encodeFormData() {
 }
 document.addEventListener('DOMContentLoaded', (event) => {
 	document.getElementById('validate').addEventListener('click', function(event) {
+		let form = {
+			string: document.querySelector('input[name="string"]').value,
+			estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
+			estado_final: document.querySelector('input[name="estado_final"]').value,
+			pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
+			delta: notEncodedFormData() 
+		};
 		fetch('./action.php', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: encodeFormData() 
+			body: JSON.stringify(form)
 		})
 		.then(response => response.json())
 		.then(data => {
