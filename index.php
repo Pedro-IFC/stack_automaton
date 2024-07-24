@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APS</title>
     <link rel="stylesheet" href="./style.css">
-    <script src="./public/js/app.js"></script>
 </head>
 <body>
     <header>
@@ -32,4 +31,6 @@
         </div>
     </section>
 </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.3/dist/sweetalert2.all.min.js"></script>
+    <script src="./public/js/app.js"></script>
 </html>

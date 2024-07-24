@@ -227,7 +227,7 @@ function getFormData() {
   } finally {
     _iterator.f();
   }
-  return data; // Retorne o objeto de dados em vez de apenas fazer log
+  return data;
 }
 function saveFormData() {
   var data = getFormData();
@@ -271,20 +271,17 @@ function notEncodedFormData() {
   var result = {};
   Array.from(estados).forEach(function (estadoDiv) {
     var estadoName = estadoDiv.querySelector('.estado').value;
-    if (!estadoName) return; // Ignora se o nome do estado estiver vazio
-
+    if (!estadoName) return;
     var estadoData = {};
     var entradas = estadoDiv.getElementsByClassName('entrada-div');
     Array.from(entradas).forEach(function (entradaDiv) {
       var entradaName = entradaDiv.querySelector('.entrada').value;
-      if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
-
+      if (!entradaName) return;
       var entradaData = {};
       var valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
       Array.from(valoresPilha).forEach(function (valorPilhaDiv) {
         var valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-        if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
-
+        if (!valorPilhaName) return;
         var valorPilhaValue = [];
         var estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
         valorPilhaValue.push(estadoAlvo);
@@ -307,20 +304,17 @@ function encodeFormData() {
   var result = {};
   Array.from(estados).forEach(function (estadoDiv) {
     var estadoName = estadoDiv.querySelector('.estado').value;
-    if (!estadoName) return; // Ignora se o nome do estado estiver vazio
-
+    if (!estadoName) return;
     var estadoData = {};
     var entradas = estadoDiv.getElementsByClassName('entrada-div');
     Array.from(entradas).forEach(function (entradaDiv) {
       var entradaName = entradaDiv.querySelector('.entrada').value;
-      if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
-
+      if (!entradaName) return;
       var entradaData = {};
       var valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
       Array.from(valoresPilha).forEach(function (valorPilhaDiv) {
         var valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-        if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
-
+        if (!valorPilhaName) return;
         var valorPilhaValue = [];
         var estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
         valorPilhaValue.push(estadoAlvo);
@@ -355,7 +349,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
-      console.log('Sucesso:', data);
+      Swal.fire({
+        icon: data[0].status ? "success" : "error",
+        title: data[0].status ? "Faz parte da linguagem!" : "Não faz parte da linguagem",
+        html: "Confira os passos da solu\xE7\xE3o: <br>" + data[0].stepby,
+        showCloseButton: true
+      });
     })["catch"](function (error) {
       console.error('Erro:', error);
     });

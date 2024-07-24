@@ -184,7 +184,7 @@ function getFormData() {
 		data.push(estadoData);
 	}
 
-	return data;  // Retorne o objeto de dados em vez de apenas fazer log
+	return data;
 }
 
 function saveFormData() {
@@ -229,21 +229,21 @@ function notEncodedFormData() {
 
 	Array.from(estados).forEach((estadoDiv) => {
 		const estadoName = estadoDiv.querySelector('.estado').value;
-		if (!estadoName) return; // Ignora se o nome do estado estiver vazio
+		if (!estadoName) return; 
 
 		const estadoData = {};
 
 		const entradas = estadoDiv.getElementsByClassName('entrada-div');
 		Array.from(entradas).forEach((entradaDiv) => {
 			const entradaName = entradaDiv.querySelector('.entrada').value;
-			if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
+			if (!entradaName) return;
 
 			const entradaData = {};
 
 			const valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
 			Array.from(valoresPilha).forEach((valorPilhaDiv) => {
 				const valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-				if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
+				if (!valorPilhaName) return;
 
 				const valorPilhaValue = [];
 				const estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
@@ -270,21 +270,21 @@ function encodeFormData() {
 
 	Array.from(estados).forEach((estadoDiv) => {
 		const estadoName = estadoDiv.querySelector('.estado').value;
-		if (!estadoName) return; // Ignora se o nome do estado estiver vazio
+		if (!estadoName) return;
 
 		const estadoData = {};
 
 		const entradas = estadoDiv.getElementsByClassName('entrada-div');
 		Array.from(entradas).forEach((entradaDiv) => {
 			const entradaName = entradaDiv.querySelector('.entrada').value;
-			if (!entradaName) return; // Ignora se o nome da entrada estiver vazio
+			if (!entradaName) return;
 
 			const entradaData = {};
 
 			const valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
 			Array.from(valoresPilha).forEach((valorPilhaDiv) => {
 				const valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-				if (!valorPilhaName) return; // Ignora se o nome do valor de pilha estiver vazio
+				if (!valorPilhaName) return;
 
 				const valorPilhaValue = [];
 				const estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 			estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
 			estado_final: document.querySelector('input[name="estado_final"]').value,
 			pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
-			delta: notEncodedFormData() 
+			delta: notEncodedFormData()
 		};
 		fetch('./action.php', {
 			method: 'POST',
@@ -322,7 +322,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log('Sucesso:', data);
+			Swal.fire({
+				icon: data[0].status?"success":"error",
+				title: data[0].status?"Faz parte da linguagem!":"Não faz parte da linguagem",
+				html: `Confira os passos da solução: <br>` + data[0].stepby,
+				showCloseButton: true,
+			});
 		})
 		.catch((error) => {
 			console.error('Erro:', error);
