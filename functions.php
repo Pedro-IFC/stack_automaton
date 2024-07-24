@@ -18,7 +18,7 @@ function automatoAP($str, $estadoI, $final, $delta, $pilha) {
         $pa = array_pop($pilha);
         @$return['stepby'].="(".$estadoAtual.",".$char.",".$pa.") -> ";
         if($pa==""){
-            $pa = $pilha[0];
+            @$pa = $pilha[0];
             unset($pilha[0]);
         }
         if(isset($delta[$estadoAtual][$char][$pa])){
