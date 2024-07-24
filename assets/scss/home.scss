@@ -47,6 +47,9 @@ input[type="text"] {
     padding-top: 98px;
     display: flex;
     min-height: 100vh;
+    @media screen and (max-width: 1250px) {
+        flex-wrap: wrap;
+    }
     .left, .right{
         padding: 40px;
     }
@@ -54,10 +57,20 @@ input[type="text"] {
         width: calc(100% - 500px);
         max-height: calc(100vh - 98px);
         overflow: scroll;
+        @media screen and (max-width: 1250px) {
+            width: 100%;
+            max-height: none;
+            order: 2;
+        }
     }
     .right{
         border-left: 2px solid $primary-color;
         width: 598px;
+        @media screen and (max-width: 1250px) {
+            border: none;
+            width: 100%;
+            order: 1;
+        }
         >*{
             margin-bottom: 20px;
             width: 100%;

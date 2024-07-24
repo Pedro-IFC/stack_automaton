@@ -1296,6 +1296,7 @@ header {
   width: 100%;
   border-bottom: 1px solid #8B163B;
   background-color: #fff;
+  z-index: 9;
 }
 
 /* Footer
@@ -1359,6 +1360,11 @@ input[type=text] {
   display: flex;
   min-height: 100vh;
 }
+@media screen and (max-width: 1250px) {
+  .form {
+    flex-wrap: wrap;
+  }
+}
 .form .left, .form .right {
   padding: 40px;
 }
@@ -1367,9 +1373,23 @@ input[type=text] {
   max-height: calc(100vh - 98px);
   overflow: scroll;
 }
+@media screen and (max-width: 1250px) {
+  .form .left {
+    width: 100%;
+    max-height: none;
+    order: 2;
+  }
+}
 .form .right {
   border-left: 2px solid #8B163B;
   width: 598px;
+}
+@media screen and (max-width: 1250px) {
+  .form .right {
+    border: none;
+    width: 100%;
+    order: 1;
+  }
 }
 .form .right > * {
   margin-bottom: 20px;

@@ -1,5 +1,5 @@
 <?php
-    require_once '../functions.php';
+    require_once '../../functions.php';
     $filename = 'teste.json';
     $jsonContent = file_get_contents($filename);
     if ($jsonContent === false) {
