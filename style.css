@@ -1350,9 +1350,18 @@ input[type=text] {
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 5px;
+  padding: 10px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  border-radius: 5px;
+}
+@media screen and (max-width: 680px) {
+  .remove-btn {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .form {
@@ -1363,6 +1372,21 @@ input[type=text] {
 @media screen and (max-width: 1250px) {
   .form {
     flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 1020px) {
+  .form {
+    padding-top: 167px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .form {
+    padding-top: 100px;
+  }
+}
+@media screen and (max-width: 430px) {
+  .form {
+    padding-top: 130px;
   }
 }
 .form .left, .form .right {
@@ -1407,6 +1431,16 @@ h1 {
   font-size: 48px;
   text-align: center;
 }
+@media screen and (max-width: 680px) {
+  h1 {
+    font-size: 32px;
+  }
+}
+@media screen and (max-width: 430px) {
+  h1 {
+    font-size: 28px;
+  }
+}
 
 h2 {
   font-family: "Roboto";
@@ -1431,6 +1465,12 @@ button:hover {
   background-color: #fff;
   color: #8B163B;
 }
+@media screen and (max-width: 680px) {
+  button {
+    width: 100%;
+    text-align: center;
+  }
+}
 
 input[type=text] {
   padding: 10px 20px;
@@ -1443,6 +1483,11 @@ input[type=text] {
   transition: all 0.3s;
   background-color: #fff;
   color: #8B163B;
+}
+@media screen and (max-width: 680px) {
+  input[type=text] {
+    width: 100%;
+  }
 }
 
 button.green {

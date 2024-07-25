@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_WARNING);
 function automatoAP($str, $estadoI, $final, $delta, $pilha) {
     $return=[
         "status"=>false,
@@ -11,32 +12,32 @@ function automatoAP($str, $estadoI, $final, $delta, $pilha) {
             if(isset($delta[$estadoAtual]["&"])){
                 $char="&";
             }else if($char!="&"){
-                @$return['stepby'].=$char." -> &";
+                $return['stepby'].=$char." -> &";
                 return $return;
             }
         }
         $pa = array_pop($pilha);
-        @$return['stepby'].="(".$estadoAtual.",".$char.",".$pa.") -> ";
+        $return['stepby'].="(".$estadoAtual.",".$char.",".$pa.") -> ";
         if($pa==""){
-            @$pa = $pilha[0];
+            $pa = $pilha[0];
             unset($pilha[0]);
         }
         if(isset($delta[$estadoAtual][$char][$pa])){
-            @$addtopilha = $delta[$estadoAtual][$char][$pa][1];
+            $addtopilha = $delta[$estadoAtual][$char][$pa][1];
             $estadoAtual=$delta[$estadoAtual][$char][$pa][0];
-            @$return['stepby'].="(".$estadoAtual;
+            $return['stepby'].="(".$estadoAtual;
             if(!is_array($pilha)){
                 $pilha= array();
             }
             if(!empty($addtopilha)){
                 foreach($addtopilha as $el){
-                    @$return['stepby'].=",".$el;
+                    $return['stepby'].=",".$el;
                     $pilha[]=$el;
                 }
             }
-            @$return['stepby'].=")<br>";
+            $return['stepby'].=")<br>";
         }else{
-            @$return['stepby'].="(".$estadoAtual.",".$pa.")";
+            $return['stepby'].="(".$estadoAtual.",".$pa.")";
         }
         //var_dump($pilha);
     }
