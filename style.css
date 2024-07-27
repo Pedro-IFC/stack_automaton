@@ -1364,58 +1364,58 @@ input[type=text] {
   }
 }
 
-.form {
+.form, .listagem {
   padding-top: 98px;
   display: flex;
   min-height: 100vh;
 }
 @media screen and (max-width: 1250px) {
-  .form {
+  .form, .listagem {
     flex-wrap: wrap;
   }
 }
 @media screen and (max-width: 1020px) {
-  .form {
+  .form, .listagem {
     padding-top: 167px;
   }
 }
 @media screen and (max-width: 680px) {
-  .form {
+  .form, .listagem {
     padding-top: 100px;
   }
 }
 @media screen and (max-width: 430px) {
-  .form {
+  .form, .listagem {
     padding-top: 130px;
   }
 }
-.form .left, .form .right {
+.form .left, .form .right, .listagem .left, .listagem .right {
   padding: 40px;
 }
-.form .left {
+.form .left, .listagem .left {
   width: calc(100% - 500px);
   max-height: calc(100vh - 98px);
   overflow: scroll;
 }
 @media screen and (max-width: 1250px) {
-  .form .left {
+  .form .left, .listagem .left {
     width: 100%;
     max-height: none;
     order: 2;
   }
 }
-.form .right {
+.form .right, .listagem .right {
   border-left: 2px solid #8B163B;
   width: 598px;
 }
 @media screen and (max-width: 1250px) {
-  .form .right {
+  .form .right, .listagem .right {
     border: none;
     width: 100%;
     order: 1;
   }
 }
-.form .right > * {
+.form .right > *, .listagem .right > * {
   margin-bottom: 20px;
   width: 100%;
 }
@@ -1425,20 +1425,20 @@ body {
 }
 
 h1 {
-  font-family: "Roboto";
-  color: #8B163B;
-  text-transform: uppercase;
-  font-size: 48px;
-  text-align: center;
+  font-family: "Roboto" !important;
+  color: #8B163B !important;
+  text-transform: uppercase !important;
+  font-size: 48px !important;
+  text-align: center !important;
 }
 @media screen and (max-width: 680px) {
   h1 {
-    font-size: 32px;
+    font-size: 32px !important;
   }
 }
 @media screen and (max-width: 430px) {
   h1 {
-    font-size: 28px;
+    font-size: 28px !important;
   }
 }
 
@@ -1449,7 +1449,9 @@ h2 {
   font-size: 32px;
 }
 
-button {
+button, .btn {
+  display: flex;
+  justify-content: center;
   padding: 10px 20px;
   border-radius: 12px;
   border: 1px solid #8B163B;
@@ -1461,12 +1463,12 @@ button {
   transition: all 0.3s;
   font-weight: 600;
 }
-button:hover {
+button:hover, .btn:hover {
   background-color: #fff;
   color: #8B163B;
 }
 @media screen and (max-width: 680px) {
-  button {
+  button, .btn {
     width: 100%;
     text-align: center;
   }
@@ -1490,14 +1492,45 @@ input[type=text] {
   }
 }
 
-button.green {
-  border: 1px solid #28a745;
-  background-color: #28a745;
+button.danger, .btn.danger {
+  border: 1px solid #dc3545 !important;
+  background-color: #dc3545 !important;
   color: #fff;
 }
-button.green:hover {
+button.danger:hover, .btn.danger:hover {
+  background-color: #fff !important;
+  color: #dc3545 !important;
+}
+
+button.green, .btn.green {
+  border: 1px solid #28a745 !important;
+  background-color: #28a745 !important;
+  color: #fff !important;
+}
+button.green:hover, .btn.green:hover {
+  background-color: #fff !important;
+  color: #28a745 !important;
+}
+
+.btn.grey {
+  border: 1px solid #3c3c3c;
+  background-color: #3c3c3c;
+  color: #fff;
+}
+.btn.grey:hover {
   background-color: #fff;
-  color: #28a745;
+  color: #3c3c3c;
+}
+
+table button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+table td:not(:has(button)) {
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .flex {
@@ -1508,4 +1541,8 @@ button.green:hover {
 }
 .flex > * {
   width: calc(25% - 15px);
+}
+
+.controles {
+  padding: 40px 0px;
 }

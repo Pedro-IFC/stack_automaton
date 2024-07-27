@@ -30,7 +30,6 @@ $ab_iguais=[
     ],
     'f' => []
 ];
-
 $delta = [
     'q0' => [
         'a' => [
@@ -72,7 +71,6 @@ $delta = [
     'q3'=>[],
     'f' => []
 ];
-
 $espelhada = [
     'q0' => [
         'a' => [
@@ -104,7 +102,6 @@ $espelhada = [
     ],
     'f' => []
 ];
-
 $return = automatoAP("ab#ba", "q0", "f", $espelhada, ["z0"]);
 var_dump($return);
 ?>

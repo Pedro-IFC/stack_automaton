@@ -1,3 +1,5 @@
+const { error } = require("laravel-mix/src/Log");
+
 let estadoCounter = 0;
 let entradaCounter = 0;
 let valorPilhaCounter = 0;
@@ -189,44 +191,28 @@ function getFormData() {
 
 function saveFormData() {
 	const data = getFormData();
-	localStorage.setItem('formData', JSON.stringify(data));
 	let form = {
+		dados: data,
+		nome: document.querySelector('input[name="nome"]').value,
 		string: document.querySelector('input[name="string"]').value,
 		estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
-		estado_final: document.querySelector('input[name="estado_final"]').value,
-		pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value,
+		estado_final: document.querySelector('input[name="estado_final"]').value.split(","),
+		pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
 	};
-	localStorage.setItem('form', JSON.stringify(form));
-}
-
-function loadFormData() {
-	const storedData = localStorage.getItem('formData');
-	if (storedData) {
-		try {
-			const data = JSON.parse(storedData);
-			data.forEach(estadoData => addEstado(estadoData));
-		} catch (error) {
-			console.error('Erro ao carregar dados salvos:', error);
-		}
+	let forms = JSON.parse(localStorage.getItem('forms'))
+	let id = localStorage.getItem('atual')?? 0;
+	if(forms){
+		forms[id]=form;
+	}else{
+		forms = new Array(form);
+		localStorage.setItem("atual", id);
 	}
-	const form = localStorage.getItem('form');
-	if(form){
-		try {
-			const formData = JSON.parse(form);
-			document.querySelector('input[name="string"]').value = formData.string;
-			document.querySelector('input[name="estado_inicial"]').value = formData.estado_inicial;
-			document.querySelector('input[name="estado_final"]').value = formData.estado_final;
-			document.querySelector('input[name="pilha_inicial"]').value = formData.pilha_inicial;
-		} catch (error) {
-			console.error('Erro ao carregar dados salvos:', error);
-		}
-	}
+	localStorage.setItem('forms', JSON.stringify(forms));
 }
 function notEncodedFormData() {
 	const estadosContainer = document.getElementById('estadosContainer');
 	const estados = estadosContainer.getElementsByClassName('estado-div');
 	const result = {};
-
 	Array.from(estados).forEach((estadoDiv) => {
 		const estadoName = estadoDiv.querySelector('.estado').value;
 		if (!estadoName) return; 
@@ -263,83 +249,119 @@ function notEncodedFormData() {
 	});
 	return result; 
 }
-function encodeFormData() {
-	const estadosContainer = document.getElementById('estadosContainer');
-	const estados = estadosContainer.getElementsByClassName('estado-div');
-	const result = {};
-
-	Array.from(estados).forEach((estadoDiv) => {
-		const estadoName = estadoDiv.querySelector('.estado').value;
-		if (!estadoName) return;
-
-		const estadoData = {};
-
-		const entradas = estadoDiv.getElementsByClassName('entrada-div');
-		Array.from(entradas).forEach((entradaDiv) => {
-			const entradaName = entradaDiv.querySelector('.entrada').value;
-			if (!entradaName) return;
-
-			const entradaData = {};
-
-			const valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
-			Array.from(valoresPilha).forEach((valorPilhaDiv) => {
-				const valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-				if (!valorPilhaName) return;
-
-				const valorPilhaValue = [];
-				const estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
-				valorPilhaValue.push(estadoAlvo);
-
-				const novosValoresPilha = valorPilhaDiv.getElementsByClassName('novo_valor_pilha');
-				const novosValoresPilhaArray = Array.from(novosValoresPilha).map(input => input.value);
-				valorPilhaValue.push(novosValoresPilhaArray);
-
-				entradaData[valorPilhaName] = valorPilhaValue;
-			});
-
-			estadoData[entradaName] = entradaData;
-		});
-
-		result[estadoName] = estadoData;
-	});
-	return JSON.stringify(result, null, 2); 
+function loadFormData() {
+	const storedData = localStorage.getItem('forms');
+	if (storedData) {
+		try {
+			const forms = JSON.parse(storedData);
+			let id = localStorage.getItem('atual')?? 0;
+			if(forms[id]){
+				forms[id].dados.forEach(estadoData => addEstado(estadoData));
+				document.querySelector('input[name="nome"]').value = forms[id].nome;
+				document.querySelector('input[name="string"]').value = forms[id].string;
+				document.querySelector('input[name="estado_inicial"]').value = forms[id].estado_inicial;
+				document.querySelector('input[name="estado_final"]').value = forms[id].estado_final;
+				document.querySelector('input[name="pilha_inicial"]').value = forms[id].pilha_inicial;
+			}
+		} catch (error) {
+			console.error('Erro ao carregar dados salvos:', error);
+		}
+	}
 }
 document.addEventListener('DOMContentLoaded', (event) => {
-	document.getElementById('validate').addEventListener('click', function(event) {
-		let form = {
-			string: document.querySelector('input[name="string"]').value,
-			estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
-			estado_final: document.querySelector('input[name="estado_final"]').value,
-			pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
-			delta: notEncodedFormData()
-		};
-		fetch('./action.php', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(form)
-		})
-		.then(response => response.json())
-		.then(data => {
-			Swal.fire({
-				icon: data[0].status?"success":"error",
-				title: data[0].status?"Faz parte da linguagem!":"Não faz parte da linguagem",
-				html: `Confira os passos da solução: <br>` + data[0].stepby,
-				showCloseButton: true,
+	if(document.getElementById('validate')){
+		document.getElementById('validate').addEventListener('click', function(event) {
+			saveFormData();
+			let forms = JSON.parse(localStorage.getItem('forms'))
+			let id = localStorage.getItem('atual')?? 0;
+			forms[id].delta=notEncodedFormData();
+			fetch('./action.php', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(forms[id])
+			})
+			.then(response => response.json())
+			.then(data => {
+				Swal.fire({
+					icon: data[0].status?"success":"error",
+					title: data[0].status?"Faz parte da linguagem!":"Não faz parte da linguagem",
+					html: `Confira os passos da solução: <br>` + data[0].stepby,
+					showCloseButton: true,
+				});
+			})
+			.catch((error) => {
+				console.error('Erro:', error);
 			});
-		})
-		.catch((error) => {
-			console.error('Erro:', error);
 		});
-	});
-	document.querySelector('#estadosContainer button').addEventListener('click', function(event) {
-		event.preventDefault();
-		addEstado();
-	});
-	document.querySelector('#savedata').addEventListener('click', function(event) {
-		event.preventDefault();
-		saveFormData()
-	});
-	loadFormData();
+	}
+	if(document.querySelector('#estadosContainer button')){
+		document.querySelector('#estadosContainer button').addEventListener('click', function(event) {
+			event.preventDefault();
+			addEstado();
+		});
+	}
+	if(document.querySelector('#savedata')){
+		document.querySelector('#savedata').addEventListener('click', function(event) {
+			event.preventDefault();
+			saveFormData()
+		});
+	}
+	if(document.getElementById('validate')){
+		loadFormData();
+	}
+	if(document.querySelector('.lista-automatos')){
+		let forms = JSON.parse(localStorage.getItem('forms'));
+		if(forms){
+			let container = document.querySelector('.lista-automatos');
+			let table = document.createElement('table');
+			table.classList.add("table")
+			table.classList.add("table-striped")
+			let tbody = document.createElement('tbody');
+			table.appendChild(tbody);
+			forms.forEach((element, index) => {
+				let row = document.createElement('tr');
+				let cellName = document.createElement('td');
+				cellName.textContent = element.nome;
+				cellName.classList.add("col-10")
+				row.appendChild(cellName);
+				let cellView = document.createElement('td');
+				cellView.classList.add("col-1")
+				let viewButton = document.createElement('button');
+				viewButton.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+				viewButton.addEventListener('click', function() {
+					localStorage.setItem('atual', index);
+					window.location.href = "./interna.php";
+				});
+				cellView.appendChild(viewButton);
+				row.appendChild(cellView);
+				let cellDelete = document.createElement('td');
+				cellDelete.classList.add("col-1")
+				let deleteButton = document.createElement('button');
+				deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
+				deleteButton.addEventListener('click', function() {
+					forms.splice(index, 1);
+					localStorage.setItem('forms', JSON.stringify(forms));
+					Swal.fire({
+						icon:"success",
+						title: "Linguagem Deletada",
+						showCloseButton: true,
+					}).then(function () {
+						location.reload();
+					});
+				});
+				cellDelete.appendChild(deleteButton);
+				row.appendChild(cellDelete);
+				tbody.appendChild(row);
+			});
+			container.appendChild(table);
+		}
+	}
+	if(document.querySelector('#add_new')){
+		document.querySelector('#add_new').addEventListener("click", () => {
+			localStorage.setItem('atual', JSON.parse(localStorage.getItem('forms'))?JSON.parse(localStorage.getItem('forms')).length:0);
+			window.location.href="./interna.php";
+		})
+	}
 });

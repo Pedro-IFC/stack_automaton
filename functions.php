@@ -39,8 +39,7 @@ function automatoAP($str, $estadoI, $final, $delta, $pilha) {
         }else{
             $return['stepby'].="(".$estadoAtual.",".$pa.")";
         }
-        //var_dump($pilha);
     }
-    $return['status']=$estadoAtual==$final;
+    $return['status']=in_array($estadoAtual, $final);
     return $return;
 }

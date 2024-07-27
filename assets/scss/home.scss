@@ -50,7 +50,7 @@ input[type="text"] {
     border-radius: 12px;
     cursor: pointer;
 }
-.form{
+.form, .listagem{
     padding-top: 98px;
     display: flex;
     min-height: 100vh;
@@ -97,16 +97,16 @@ body{
     background-color: $white;
 }
 h1{
-    font-family: "Roboto";
-    color: $primary-color;
-    text-transform: uppercase;
-    font-size: 48px;
-    text-align: center;
+    font-family: "Roboto"!important;
+    color: $primary-color!important;
+    text-transform: uppercase!important;
+    font-size: 48px!important;
+    text-align: center!important;
     @media screen and (max-width: 680px) {
-        font-size: 32px;
+        font-size: 32px!important;
     }
     @media screen and (max-width: 430px) {
-        font-size: 28px;
+        font-size: 28px!important;
     }
 }
 h2{
@@ -115,7 +115,9 @@ h2{
     text-transform: uppercase;
     font-size: 32px;
 }
-button{
+button, .btn{
+    display: flex;
+    justify-content: center;
     padding: 10px 20px;
     border-radius: 12px;
     border: 1px solid $primary-color;
@@ -150,13 +152,43 @@ input[type=text]{
         width: 100%;
     }
 }
-button.green{
-    border: 1px solid $success;
-    background-color: $success;
+button.danger, .btn.danger{
+    border: 1px solid $danger!important;
+    background-color: $danger!important;
+    color: $white;
+    &:hover{
+        background-color: $white!important;
+        color: $danger!important;
+    }
+}
+button.green, .btn.green{
+    border: 1px solid $success!important;
+    background-color: $success!important;
+    color: $white!important;
+    &:hover{
+        background-color: $white!important;
+        color: $success!important;
+    }
+}
+.btn.grey{
+    border: 1px solid #3c3c3c;
+    background-color: #3c3c3c;
     color: $white;
     &:hover{
         background-color: $white;
-        color: $success;
+        color: #3c3c3c;
+    }
+}
+table{
+    button{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    td:not(:has(button)){
+        font-size: 22px;
+        font-weight: 600;
     }
 }
 .flex{
@@ -167,4 +199,7 @@ button.green{
     >*{
         width: calc(100%/4 - 3*20px/4);
     }
+}
+.controles{
+    padding: 40px 0px;
 }
