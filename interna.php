@@ -27,8 +27,11 @@
             <input type="text" name="estado_inicial" id="estado_inicial" placeholder="Estado Inicial">
             <input type="text" name="estado_final" id="estado_final" placeholder='Estado Final separe por ","'>
             <input type="text" name="pilha_inicial" id="pilha_inicial" placeholder='Pilha Inicial (separado por ",")'>
+            <input type="text" name="alfabeto" id="alfabeto" placeholder='Alfabeto (separado por ",")'>
+            <input type="text" name="alfabeto_pilha" id="alfabeto_pilha" placeholder='Alfabeto de pilha (separado por ",")'>
             <button type="button" id="savedata" class="green">Salvar</button>
             <button type="submit" id="validate">Validar</button>
+            <button type="button" id="gerar_ap">Gerar AP formal</button>
             <a class="btn grey" href="./" id="voltar">Voltar</a>
         </div>
     </section>

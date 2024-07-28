@@ -198,6 +198,8 @@ function saveFormData() {
 		estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
 		estado_final: document.querySelector('input[name="estado_final"]').value.split(","),
 		pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
+		alfabeto: document.querySelector('input[name="alfabeto"]').value.split(","),
+		alfabeto_pilha: document.querySelector('input[name="alfabeto_pilha"]').value.split(",")
 	};
 	let forms = JSON.parse(localStorage.getItem('forms'))
 	let id = localStorage.getItem('atual')?? 0;
@@ -262,11 +264,56 @@ function loadFormData() {
 				document.querySelector('input[name="estado_inicial"]').value = forms[id].estado_inicial;
 				document.querySelector('input[name="estado_final"]').value = forms[id].estado_final;
 				document.querySelector('input[name="pilha_inicial"]').value = forms[id].pilha_inicial;
+				document.querySelector('input[name="alfabeto"]').value=forms[id].alfabeto;
+				document.querySelector('input[name="alfabeto_pilha"]').value=forms[id].alfabeto_pilha;
 			}
 		} catch (error) {
 			console.error('Erro ao carregar dados salvos:', error);
 		}
 	}
+}
+function gerarTransicoes(dados) {
+    let transicoes = '';
+    dados.forEach(estadoObj => {
+        const estado = estadoObj.estado;
+        estadoObj.entradas.forEach(entradaObj => {
+            const entrada = entradaObj.entrada;
+            entradaObj.valoresPilha.forEach(pilhaObj => {
+                const valorPilha = pilhaObj.valorPilha;
+                const estadoAlvo = pilhaObj.estadoAlvo;
+                const novosValoresPilha = pilhaObj.novosValoresPilha.join('');
+
+                transicoes += `δ(${estado}, ${entrada}, ${valorPilha}) = (${estadoAlvo}, ${novosValoresPilha})<br>`;
+            });
+        });
+    });
+    return transicoes.trim();
+}
+function gerarAp() {
+	let forms = JSON.parse(localStorage.getItem('forms'))
+	let id = localStorage.getItem('atual')?? 0;
+	let form = forms[id];
+	let estados = "";
+	console.log()
+	form.dados.forEach(element => {
+		if(estados==""){
+			estados+=element.estado;
+		}else{
+			estados+=", " + element.estado;
+		}
+	});
+	Swal.fire({
+		icon: "success",
+		title: "Definição formal do Autômato",
+		html:  `Q: ` + estados + ` <hr>
+				Σ: ` + form.alfabeto + ` <hr>
+				Γ: ` + form.alfabeto_pilha + ` <hr>
+				δ: ` + gerarTransicoes(form.dados) + `<hr>
+				q0: ` + form.estado_inicial + ` <hr>
+				z0: ` + form.pilha_inicial + ` <hr>
+				F: ` + form.estado_final + ` <hr>`,
+		showCloseButton: true,
+	});
 }
 document.addEventListener('DOMContentLoaded', (event) => {
 	if(document.getElementById('validate')){
@@ -291,9 +338,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 					showCloseButton: true,
 				});
 			})
-			.catch((error) => {
-				console.error('Erro:', error);
-			});
 		});
 	}
 	if(document.querySelector('#estadosContainer button')){
@@ -306,6 +350,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		document.querySelector('#savedata').addEventListener('click', function(event) {
 			event.preventDefault();
 			saveFormData()
+		});
+	}
+	if(document.querySelector('#gerar_ap')){
+		document.querySelector('#gerar_ap').addEventListener('click', function(event) {
+			event.preventDefault();
+			gerarAp();
 		});
 	}
 	if(document.getElementById('validate')){

@@ -82,9 +82,12 @@ input[type="text"] {
     .right{
         border-left: 2px solid $primary-color;
         width: 598px;
+        max-height: calc(100vh - 98px);
+        overflow: scroll;
         @media screen and (max-width: 1250px) {
             border: none;
             width: 100%;
+            max-height: none;
             order: 1;
         }
         >*{

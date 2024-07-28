@@ -1407,11 +1407,14 @@ input[type=text] {
 .form .right, .listagem .right {
   border-left: 2px solid #8B163B;
   width: 598px;
+  max-height: calc(100vh - 98px);
+  overflow: scroll;
 }
 @media screen and (max-width: 1250px) {
   .form .right, .listagem .right {
     border: none;
     width: 100%;
+    max-height: none;
     order: 1;
   }
 }

@@ -415,7 +415,9 @@ function saveFormData() {
     string: document.querySelector('input[name="string"]').value,
     estado_inicial: document.querySelector('input[name="estado_inicial"]').value,
     estado_final: document.querySelector('input[name="estado_final"]').value.split(","),
-    pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(",")
+    pilha_inicial: document.querySelector('input[name="pilha_inicial"]').value.split(","),
+    alfabeto: document.querySelector('input[name="alfabeto"]').value.split(","),
+    alfabeto_pilha: document.querySelector('input[name="alfabeto_pilha"]').value.split(",")
   };
   var forms = JSON.parse(localStorage.getItem('forms'));
   var id = (_localStorage$getItem = localStorage.getItem('atual')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 0;
@@ -476,19 +478,58 @@ function loadFormData() {
         document.querySelector('input[name="estado_inicial"]').value = forms[id].estado_inicial;
         document.querySelector('input[name="estado_final"]').value = forms[id].estado_final;
         document.querySelector('input[name="pilha_inicial"]').value = forms[id].pilha_inicial;
+        document.querySelector('input[name="alfabeto"]').value = forms[id].alfabeto;
+        document.querySelector('input[name="alfabeto_pilha"]').value = forms[id].alfabeto_pilha;
       }
     } catch (error) {
       console.error('Erro ao carregar dados salvos:', error);
     }
   }
 }
+function gerarTransicoes(dados) {
+  var transicoes = '';
+  dados.forEach(function (estadoObj) {
+    var estado = estadoObj.estado;
+    estadoObj.entradas.forEach(function (entradaObj) {
+      var entrada = entradaObj.entrada;
+      entradaObj.valoresPilha.forEach(function (pilhaObj) {
+        var valorPilha = pilhaObj.valorPilha;
+        var estadoAlvo = pilhaObj.estadoAlvo;
+        var novosValoresPilha = pilhaObj.novosValoresPilha.join('');
+        transicoes += "\u03B4(".concat(estado, ", ").concat(entrada, ", ").concat(valorPilha, ") = (").concat(estadoAlvo, ", ").concat(novosValoresPilha, ")<br>");
+      });
+    });
+  });
+  return transicoes.trim();
+}
+function gerarAp() {
+  var _localStorage$getItem3;
+  var forms = JSON.parse(localStorage.getItem('forms'));
+  var id = (_localStorage$getItem3 = localStorage.getItem('atual')) !== null && _localStorage$getItem3 !== void 0 ? _localStorage$getItem3 : 0;
+  var form = forms[id];
+  var estados = "";
+  console.log();
+  form.dados.forEach(function (element) {
+    if (estados == "") {
+      estados += element.estado;
+    } else {
+      estados += ", " + element.estado;
+    }
+  });
+  Swal.fire({
+    icon: "success",
+    title: "Definição formal do Autômato",
+    html: "Q: " + estados + " <hr>\n\t\t\t\t\u03A3: " + form.alfabeto + " <hr>\n\t\t\t\t\u0393: " + form.alfabeto_pilha + " <hr>\n\t\t\t\t\u03B4: " + gerarTransicoes(form.dados) + "<hr>\n\t\t\t\tq0: " + form.estado_inicial + " <hr>\n\t\t\t\tz0: " + form.pilha_inicial + " <hr>\n\t\t\t\tF: " + form.estado_final + " <hr>",
+    showCloseButton: true
+  });
+}
 document.addEventListener('DOMContentLoaded', function (event) {
   if (document.getElementById('validate')) {
     document.getElementById('validate').addEventListener('click', function (event) {
-      var _localStorage$getItem3;
+      var _localStorage$getItem4;
       saveFormData();
       var forms = JSON.parse(localStorage.getItem('forms'));
-      var id = (_localStorage$getItem3 = localStorage.getItem('atual')) !== null && _localStorage$getItem3 !== void 0 ? _localStorage$getItem3 : 0;
+      var id = (_localStorage$getItem4 = localStorage.getItem('atual')) !== null && _localStorage$getItem4 !== void 0 ? _localStorage$getItem4 : 0;
       forms[id].delta = notEncodedFormData();
       fetch('./action.php', {
         method: 'POST',
@@ -505,8 +546,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
           html: "Confira os passos da solu\xE7\xE3o: <br>" + data[0].stepby,
           showCloseButton: true
         });
-      })["catch"](function (error) {
-        console.error('Erro:', error);
       });
     });
   }
@@ -520,6 +559,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document.querySelector('#savedata').addEventListener('click', function (event) {
       event.preventDefault();
       saveFormData();
+    });
+  }
+  if (document.querySelector('#gerar_ap')) {
+    document.querySelector('#gerar_ap').addEventListener('click', function (event) {
+      event.preventDefault();
+      gerarAp();
     });
   }
   if (document.getElementById('validate')) {
