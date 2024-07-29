@@ -1,78 +1,67 @@
+# Sistema de Autômatos de Pilha Determinísticos
 
-# Documentação do Sistema de Autômatos de Pilha Determinísticos
+## Visão Geral
+
+O sistema de Autômatos de Pilha Determinísticos permite aos usuários criar, editar e validar autômatos de pilha. A interface é composta por uma página inicial, uma página de edição interna, e diversas funções para validação e geração de autômatos formais.
 
 ## Página Inicial
 
-**Descrição:**
-A página inicial do sistema exibe uma lista de autômatos de pilha determinísticos cadastrados. Cada item da lista tem opções para editar ou excluir o autômato.
+### Descrição
 
-**Elementos da Página:**
-- **Título:** "AUTÔMATOS DE PILHA DETERMINÍSTICOS"
-- **Botão Adicionar Novo:** Um botão verde que permite adicionar um novo autômato à lista.
-- **Lista de Autômatos:**
-  - Cada autômato é exibido com seu nome.
-  - Botão Editar (ícone de lápis) para editar o autômato.
-  - Botão Excluir (ícone de lixeira) para remover o autômato.
+A página inicial serve como ponto de entrada do sistema, onde são listados todos os autômatos de pilha criados pelo usuário. A partir desta página, é possível adicionar um novo autômato ou editar/remover os existentes.
 
-**Fluxo de Usuário:**
-1. **Adicionar Novo Autômato:**
-   - Clique no botão "Adicionar Novo".
-   - O usuário será redirecionado para a página de criação/edição de autômatos.
-2. **Editar Autômato:**
-   - Clique no ícone de lápis ao lado do autômato que deseja editar.
-   - O usuário será redirecionado para a página de edição do autômato selecionado.
-3. **Excluir Autômato:**
-   - Clique no ícone de lixeira ao lado do autômato que deseja excluir.
-   - O autômato será removido da lista.
+### Componentes
+
+- **Botão "Adicionar Novo"**: Permite criar um novo autômato.
+- **Lista de Autômatos**: Exibe os autômatos criados, com opções para editar (ícone de lápis) ou remover (ícone de lixeira).
+
+### Imagem
+
+![Página Inicial](path/to/your/image1.png)
 
 ## Página Interna
 
-**Descrição:**
-A página interna permite a configuração dos estados e transições do autômato de pilha determinístico.
+### Descrição
 
-**Elementos da Página:**
-- **Título:** "AUTÔMATOS DE PILHA DETERMINÍSTICOS"
-- **Seção Estados:**
-  - Botão Adicionar Estado: Permite adicionar um novo estado.
-  - Campos para configuração de estados, entradas e valores de pilha.
-  - Botões para adicionar entradas e valores de pilha para cada estado.
-  - Botões para remover estados, entradas e valores de pilha.
-- **Seção de Configuração do Autômato:**
-  - Campo para o nome do autômato.
-  - Campo para a entrada a ser validada.
-  - Campo para o estado inicial.
-  - Campo para o estado final.
-  - Campo para o valor inicial da pilha.
-- **Botões de Ação:**
-  - Botão Salvar: Salva a configuração do autômato.
-  - Botão Validar: Valida a entrada com base no autômato configurado.
-  - Botão Voltar: Retorna à página inicial.
+A página interna permite a edição dos detalhes de um autômato específico. Aqui, o usuário pode adicionar estados, entradas, valores de pilha e definir transições.
 
-**Fluxo de Usuário:**
-1. **Adicionar Estado:**
-   - Clique no botão "Adicionar Estado".
-   - Preencha o campo do estado com o nome do estado.
-2. **Adicionar Entrada:**
-   - Preencha o campo de entrada com o símbolo de entrada.
-   - Clique no botão "Adicionar Entrada".
-3. **Adicionar Valor de Pilha:**
-   - Preencha o campo de valor de pilha com o símbolo de pilha.
-   - Clique no botão "Adicionar Valor de Pilha".
-4. **Configurar Autômato:**
-   - Preencha os campos de configuração com os valores apropriados.
-5. **Salvar Configuração:**
-   - Clique no botão "Salvar" para salvar a configuração do autômato.
-6. **Validar Entrada:**
-   - Clique no botão "Validar" para verificar se a entrada faz parte da linguagem do autômato.
-7. **Voltar à Página Inicial:**
-   - Clique no botão "Voltar" para retornar à página inicial.
+### Componentes
+
+- **Adicionar Estado**: Campo para inserir novos estados no autômato.
+- **Adicionar Entrada**: Campo para adicionar novas entradas.
+- **Adicionar Valor de Pilha**: Campo para adicionar novos valores de pilha.
+- **Adicionar Novo Valor de Pilha**: Campo para definir transições entre valores de pilha.
+- **Campos de Detalhes**: À direita, diversos campos para inserir nome, transições e símbolos do autômato.
+- **Botões**: "Salvar", "Validar", "Gerar AP Formal", "Voltar".
+
+### Imagem
+
+![Página Interna](path/to/your/image2.png)
 
 ## Validação
 
-**Descrição:**
-A tela de validação exibe o resultado da verificação da entrada, indicando se ela faz parte da linguagem do autômato.
+### Descrição
 
-**Elementos da Página:**
-- **Mensagem de Validação:**
-  - Exibe uma mensagem indicando se a entrada faz ou não parte da linguagem do autômato.
-  - Exibe os passos de transição que levaram ao resultado.
+Após inserir os detalhes de um autômato, o usuário pode validá-lo. Se o autômato estiver correto, uma mensagem de sucesso é exibida, juntamente com os passos da solução.
+
+### Componentes
+
+- **Mensagem de Sucesso**: "Faz parte da linguagem! Confira os passos da solução: (detalhes da solução)".
+
+### Imagem
+
+![Validação](path/to/your/image3.png)
+
+## Geração de Autômato Formal
+
+### Descrição
+
+A partir da página interna, o usuário pode gerar a representação formal do autômato de pilha. Esta função converte os detalhes inseridos em uma forma matemática rigorosa.
+
+### Componentes
+
+- **Botão "Gerar AP Formal"**: Gera a representação formal do autômato.
+
+---
+
+Esta é uma estrutura básica para a documentação do seu sistema. Para finalizar, seria interessante adicionar mais detalhes como exemplos de uso, explicações detalhadas das transições e talvez um glossário de termos.
