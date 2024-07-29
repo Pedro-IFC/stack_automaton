@@ -15,10 +15,6 @@ A página inicial serve como ponto de entrada do sistema, onde são listados tod
 - **Botão "Adicionar Novo"**: Permite criar um novo autômato.
 - **Lista de Autômatos**: Exibe os autômatos criados, com opções para editar (ícone de lápis) ou remover (ícone de lixeira).
 
-### Imagem
-
-![Página Inicial](path/to/your/image1.png)
-
 ## Página Interna
 
 ### Descrição
@@ -34,10 +30,6 @@ A página interna permite a edição dos detalhes de um autômato específico. A
 - **Campos de Detalhes**: À direita, diversos campos para inserir nome, transições e símbolos do autômato.
 - **Botões**: "Salvar", "Validar", "Gerar AP Formal", "Voltar".
 
-### Imagem
-
-![Página Interna](path/to/your/image2.png)
-
 ## Validação
 
 ### Descrição
@@ -47,10 +39,6 @@ Após inserir os detalhes de um autômato, o usuário pode validá-lo. Se o aut�
 ### Componentes
 
 - **Mensagem de Sucesso**: "Faz parte da linguagem! Confira os passos da solução: (detalhes da solução)".
-
-### Imagem
-
-![Validação](path/to/your/image3.png)
 
 ## Geração de Autômato Formal
 
