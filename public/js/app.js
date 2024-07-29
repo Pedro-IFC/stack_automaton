@@ -445,7 +445,7 @@ function notEncodedFormData() {
       var valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
       Array.from(valoresPilha).forEach(function (valorPilhaDiv) {
         var valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-        if (!valorPilhaName) return;
+        valorPilhaName = valorPilhaName != "" ? valorPilhaName : "&";
         var valorPilhaValue = [];
         var estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
         valorPilhaValue.push(estadoAlvo);

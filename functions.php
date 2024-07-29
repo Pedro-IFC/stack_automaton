@@ -10,14 +10,6 @@ function automatoAP($str, $estadoInicial, $estadosFinais, $delta, $pilha, $alfab
     for ($i = 0; $i <= strlen($str); $i++) {
         $char = $i < strlen($str) ? $str[$i] : "&";
         $topoPilha = array_pop($pilha);
-        if(!in_array($char, $alfabeto) && $char!="&"){
-            $resultado["stepby"]='O caractere "'.$char.'" está fora do alfabeto';
-            return $resultado;
-        }
-        if(!in_array($topoPilha, $alfabeto_pilha)){
-            $resultado["stepby"]='O valor de pilha "'.$topoPilha.'" está fora do alfabeto de pilha';
-            return $resultado;
-        }
         if (!isset($delta[$estadoAtual][$char])) {
             if (isset($delta[$estadoAtual]["&"])) {
                 $char = "&";
@@ -27,19 +19,28 @@ function automatoAP($str, $estadoInicial, $estadosFinais, $delta, $pilha, $alfab
                 return $resultado;
             }
         }
-        $resultado['stepby'] .= "($estadoAtual, $char, $topoPilha) -> ";
-        if ($topoPilha === null) {
-            $topoPilha = array_shift($pilha);
+        if(!in_array($char, $alfabeto) && $char!="&"){
+            $resultado["stepby"]='O caractere "'.$char.'" está fora do alfabeto';
+            return $resultado;
         }
+        if(!in_array($topoPilha, $alfabeto_pilha) && !empty($topoPilha)){
+            $resultado["stepby"]='O valor de pilha "'.$topoPilha.'" está fora do alfabeto de pilha';
+            return $resultado;
+        }
+        if (empty($topoPilha)) {
+            $topoPilha = "&";
+        }
+        $resultado['stepby'] .= "($estadoAtual, $char, $topoPilha) -> ";
         if (isset($delta[$estadoAtual][$char][$topoPilha])) {
             list($novoEstado, $novoTopoPilha) = $delta[$estadoAtual][$char][$topoPilha];
             $estadoAtual = $novoEstado;
             $resultado['stepby'] .= "($estadoAtual";
-            if (!empty($novoTopoPilha)) {
-                foreach ($novoTopoPilha as $el) {
-                    $resultado['stepby'] .= ", $el";
-                    array_push($pilha, $el);
-                }
+            if (empty($novoTopoPilha)) {
+                $novoTopoPilha = "&";
+            }
+            $resultado['stepby'] .= ", $novoTopoPilha";
+            foreach ($novoTopoPilha as $el) {
+                array_push($pilha, $el);
             }
             $resultado['stepby'] .= ")<br>";
         } else {

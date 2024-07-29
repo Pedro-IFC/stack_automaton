@@ -230,8 +230,8 @@ function notEncodedFormData() {
 
 			const valoresPilha = entradaDiv.getElementsByClassName('valor-pilha-div');
 			Array.from(valoresPilha).forEach((valorPilhaDiv) => {
-				const valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
-				if (!valorPilhaName) return;
+				var valorPilhaName = valorPilhaDiv.querySelector('.valor_pilha').value;
+				valorPilhaName = valorPilhaName!=""?valorPilhaName:"&";
 
 				const valorPilhaValue = [];
 				const estadoAlvo = valorPilhaDiv.querySelector('.estado_alvo').value;
