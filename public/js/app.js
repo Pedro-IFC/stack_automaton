@@ -531,8 +531,7 @@ function gerarDiagramaAutomato() {
   var diagramaDiv = document.createElement('div');
   diagramaDiv.id = 'diagrama';
   diagramaDiv.style.width = '100%';
-  diagramaDiv.style.height = '100%';
-  document.body.appendChild(diagramaDiv);
+  diagramaDiv.style.height = '500px';
   var nodes = [];
   var edges = [];
   var i = 0;
@@ -627,6 +626,31 @@ function gerarDiagramaAutomato() {
     }
   };
   var network = new vis.Network(diagramaDiv, data, options);
+  document.querySelector("#diagramaFather").appendChild(diagramaDiv);
+  Swal.fire({
+    icon: "success",
+    title: "Diagrama formal de automatos",
+    html: "<div id=\"diagramaGrandFather\"></div><br>\n\t\t\t<a id=\"downloadDiagram\" class=\"btn\"><i class=\"fa-solid fa-download\"></i></a>",
+    showCancelButton: true,
+    showCloseButton: true,
+    showConfirmButton: false,
+    customClass: {
+      container: 'custom-swal'
+    }
+  });
+  var diagramaFather = document.createElement('div');
+  diagramaFather.id = 'diagramaFather';
+  document.body.appendChild(diagramaFather);
+  document.querySelector("#diagramaGrandFather").appendChild(document.querySelector("#diagramaFather"));
+  network = new vis.Network(diagramaDiv, data, options);
+  document.querySelector("#downloadDiagram").addEventListener("click", function () {
+    html2canvas(diagramaDiv).then(function (canvas) {
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'diagram.png';
+      link.click();
+    });
+  });
 }
 document.addEventListener('DOMContentLoaded', function (event) {
   if (document.getElementById('validate')) {
@@ -673,7 +697,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     });
   }
   if (document.querySelector('#gerar_diagrama')) {
-    gerarDiagramaAutomato();
     document.querySelector('#gerar_diagrama').addEventListener('click', function (event) {
       event.preventDefault();
       gerarDiagramaAutomato();

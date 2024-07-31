@@ -501,6 +501,21 @@ body::-webkit-scrollbar-thumb {
         }
     }
 }
+.custom-swal div.swal2-popup{
+    width: 90vw !important; /* Ajuste a largura conforme necessário */
+}
+#diagramaFather{
+	display: none;
+}
+#diagramaGrandFather{
+	padding: 20px;
+}
+#diagramaGrandFather #diagramaFather{
+	display: block;
+}
+div#diagrama{
+	min-height: 500px;
+}
 /* Pages
 ========================================================================== */
 @import 'header';
