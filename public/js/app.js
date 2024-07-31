@@ -495,7 +495,7 @@ function gerarTransicoes(dados) {
       entradaObj.valoresPilha.forEach(function (pilhaObj) {
         var valorPilha = pilhaObj.valorPilha;
         var estadoAlvo = pilhaObj.estadoAlvo;
-        var novosValoresPilha = pilhaObj.novosValoresPilha.join('');
+        var novosValoresPilha = pilhaObj.novosValoresPilha;
         transicoes += "\u03B4(".concat(estado, ", ").concat(entrada, ", ").concat(valorPilha, ") = (").concat(estadoAlvo, ", ").concat(novosValoresPilha, ")<br>");
       });
     });
@@ -508,7 +508,6 @@ function gerarAp() {
   var id = (_localStorage$getItem3 = localStorage.getItem('atual')) !== null && _localStorage$getItem3 !== void 0 ? _localStorage$getItem3 : 0;
   var form = forms[id];
   var estados = "";
-  console.log();
   form.dados.forEach(function (element) {
     if (estados == "") {
       estados += element.estado;
@@ -523,13 +522,119 @@ function gerarAp() {
     showCloseButton: true
   });
 }
+function gerarDiagramaAutomato() {
+  var _localStorage$getItem4;
+  var forms = JSON.parse(localStorage.getItem('forms'));
+  var id = (_localStorage$getItem4 = localStorage.getItem('atual')) !== null && _localStorage$getItem4 !== void 0 ? _localStorage$getItem4 : 0;
+  var form = forms[id];
+  var dadosAutomato = form.dados;
+  var diagramaDiv = document.createElement('div');
+  diagramaDiv.id = 'diagrama';
+  diagramaDiv.style.width = '100%';
+  diagramaDiv.style.height = '100%';
+  document.body.appendChild(diagramaDiv);
+  var nodes = [];
+  var edges = [];
+  var i = 0;
+  dadosAutomato.forEach(function (estado) {
+    nodes.push({
+      id: estado.estado,
+      label: estado.estado
+    });
+    var j = 0;
+    dadosAutomato[i].entradas.forEach(function (entrada) {
+      var k = 0;
+      dadosAutomato[i].entradas[j].valoresPilha.forEach(function (valorPilhaVr) {
+        var novosValoresPilha = valorPilhaVr.novosValoresPilha;
+        var alvoPilha = "";
+        var first = true;
+        novosValoresPilha.forEach(function (element) {
+          alvoPilha += first ? element : ", " + element;
+        });
+        alvoPilha = alvoPilha == "" ? "&" : alvoPilha;
+        var estadoAlvo = valorPilhaVr.estadoAlvo;
+        edges.push({
+          from: estado.estado,
+          to: estadoAlvo,
+          smooth: {
+            enabled: true,
+            type: "dynamic"
+          },
+          label: "(".concat(entrada.entrada, ", ").concat(valorPilhaVr.valorPilha, ") -> (").concat(estadoAlvo, ", ").concat(alvoPilha, ")")
+        });
+        k++;
+      });
+      j++;
+    });
+    i++;
+  });
+  var data = {
+    nodes: new vis.DataSet(nodes),
+    edges: new vis.DataSet(edges)
+  };
+
+  // Opções da network
+  var options = {
+    layout: {
+      improvedLayout: true,
+      hierarchical: {
+        enabled: false
+      }
+    },
+    physics: {
+      enabled: true,
+      barnesHut: {
+        gravitationalConstant: -30000,
+        // Controla a força de atração/repulsão
+        centralGravity: 0.3,
+        springLength: 300,
+        // Aumenta o comprimento da mola entre nodos
+        springConstant: 0.01,
+        damping: 0.09,
+        avoidOverlap: 1
+      },
+      stabilization: {
+        iterations: 2500
+      }
+    },
+    edges: {
+      arrows: 'to',
+      font: {
+        align: 'top',
+        size: 16,
+        // Tamanho da fonte das arestas
+        multi: true
+      },
+      smooth: {
+        type: 'dynamic'
+      }
+    },
+    nodes: {
+      shape: 'ellipse',
+      font: {
+        size: 20 // Tamanho da fonte dos nós
+      },
+      scaling: {
+        min: 16,
+        max: 32
+      },
+      margin: {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20
+      }
+    }
+  };
+  var network = new vis.Network(diagramaDiv, data, options);
+}
 document.addEventListener('DOMContentLoaded', function (event) {
   if (document.getElementById('validate')) {
     document.getElementById('validate').addEventListener('click', function (event) {
-      var _localStorage$getItem4;
+      var _localStorage$getItem5;
       saveFormData();
       var forms = JSON.parse(localStorage.getItem('forms'));
-      var id = (_localStorage$getItem4 = localStorage.getItem('atual')) !== null && _localStorage$getItem4 !== void 0 ? _localStorage$getItem4 : 0;
+      var id = (_localStorage$getItem5 = localStorage.getItem('atual')) !== null && _localStorage$getItem5 !== void 0 ? _localStorage$getItem5 : 0;
       forms[id].delta = notEncodedFormData();
       fetch('./action.php', {
         method: 'POST',
@@ -565,6 +670,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document.querySelector('#gerar_ap').addEventListener('click', function (event) {
       event.preventDefault();
       gerarAp();
+    });
+  }
+  if (document.querySelector('#gerar_diagrama')) {
+    gerarDiagramaAutomato();
+    document.querySelector('#gerar_diagrama').addEventListener('click', function (event) {
+      event.preventDefault();
+      gerarDiagramaAutomato();
     });
   }
   if (document.getElementById('validate')) {

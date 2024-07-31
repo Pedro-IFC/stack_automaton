@@ -281,7 +281,7 @@ function gerarTransicoes(dados) {
             entradaObj.valoresPilha.forEach(pilhaObj => {
                 const valorPilha = pilhaObj.valorPilha;
                 const estadoAlvo = pilhaObj.estadoAlvo;
-                const novosValoresPilha = pilhaObj.novosValoresPilha.join('');
+                const novosValoresPilha = pilhaObj.novosValoresPilha;
 
                 transicoes += `δ(${estado}, ${entrada}, ${valorPilha}) = (${estadoAlvo}, ${novosValoresPilha})<br>`;
             });
@@ -294,7 +294,6 @@ function gerarAp() {
 	let id = localStorage.getItem('atual')?? 0;
 	let form = forms[id];
 	let estados = "";
-	console.log()
 	form.dados.forEach(element => {
 		if(estados==""){
 			estados+=element.estado;
@@ -314,6 +313,108 @@ function gerarAp() {
 				F: ` + form.estado_final + ` <hr>`,
 		showCloseButton: true,
 	});
+}
+function gerarDiagramaAutomato() {
+	let forms = JSON.parse(localStorage.getItem('forms'))
+	let id = localStorage.getItem('atual')?? 0;
+	let form = forms[id];
+	let dadosAutomato = form.dados;
+    const diagramaDiv = document.createElement('div');
+    diagramaDiv.id = 'diagrama';
+    diagramaDiv.style.width = '100%';
+    diagramaDiv.style.height = '100%';
+    document.body.appendChild(diagramaDiv);
+    const nodes = [];
+    const edges = [];
+	let i=0;
+    dadosAutomato.forEach(estado => {
+        nodes.push({ 
+			id: estado.estado, 
+			label: estado.estado, 
+		});
+		let j=0;
+        dadosAutomato[i].entradas.forEach(entrada => {
+			let k=0;
+            dadosAutomato[i].entradas[j].valoresPilha.forEach(valorPilhaVr => {
+                const novosValoresPilha = valorPilhaVr.novosValoresPilha;
+				let alvoPilha="";
+				let first = true;
+				novosValoresPilha.forEach(element => {
+					alvoPilha+=first?element:", " + element;
+				});
+				alvoPilha=alvoPilha==""?"&":alvoPilha;
+                const estadoAlvo = valorPilhaVr.estadoAlvo;
+                edges.push({ 
+                    from: estado.estado, 
+                    to: estadoAlvo, 
+					smooth: {
+						enabled: true,
+						type: "dynamic",
+					},
+                    label: `(${entrada.entrada}, ${valorPilhaVr.valorPilha}) -> (${estadoAlvo}, ${alvoPilha})` 
+                });
+				k++;
+            });
+			j++;
+        });
+		i++;
+    });
+    const data = {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges)
+    };
+	
+    // Opções da network
+    const options = {
+        layout: {
+            improvedLayout: true,
+            hierarchical: {
+                enabled: false
+            }
+        },
+        physics: {
+            enabled: true,
+            barnesHut: {
+                gravitationalConstant: -30000, // Controla a força de atração/repulsão
+                centralGravity: 0.3,
+                springLength: 300, // Aumenta o comprimento da mola entre nodos
+                springConstant: 0.01,
+                damping: 0.09,
+                avoidOverlap: 1
+            },
+            stabilization: {
+                iterations: 2500
+            }
+        },
+        edges: {
+            arrows: 'to',
+            font: {
+                align: 'top',
+                size: 16, // Tamanho da fonte das arestas
+                multi: true
+            },
+            smooth: {
+                type: 'dynamic'
+            }
+        },
+        nodes: {
+            shape: 'ellipse',
+            font: {
+                size: 20 // Tamanho da fonte dos nós
+            },
+            scaling: {
+                min: 16,
+                max: 32
+            },
+            margin: {
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20
+            }
+        }
+    };
+    const network = new vis.Network(diagramaDiv, data, options);
 }
 document.addEventListener('DOMContentLoaded', (event) => {
 	if(document.getElementById('validate')){
@@ -356,6 +457,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		document.querySelector('#gerar_ap').addEventListener('click', function(event) {
 			event.preventDefault();
 			gerarAp();
+		});
+	}
+	if(document.querySelector('#gerar_diagrama')){
+			gerarDiagramaAutomato()
+		document.querySelector('#gerar_diagrama').addEventListener('click', function(event) {
+			event.preventDefault();
+			gerarDiagramaAutomato()
 		});
 	}
 	if(document.getElementById('validate')){

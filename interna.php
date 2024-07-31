@@ -32,10 +32,12 @@
             <button type="button" id="savedata" class="green">Salvar</button>
             <button type="submit" id="validate">Validar</button>
             <button type="button" id="gerar_ap">Gerar AP formal</button>
+            <button type="button" id="gerar_diagrama">Gerar diagrama formal</button>
             <a class="btn grey" href="./" id="voltar">Voltar</a>
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.3/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script type="module" src="./public/js/app.js"></script>
 </body>
 </html>
