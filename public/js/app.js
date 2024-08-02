@@ -531,7 +531,7 @@ function gerarDiagramaAutomato() {
   var diagramaDiv = document.createElement('div');
   diagramaDiv.id = 'diagrama';
   diagramaDiv.style.width = '100%';
-  diagramaDiv.style.height = '500px';
+  diagramaDiv.style.height = '300px';
   var nodes = [];
   var edges = [];
   var i = 0;

@@ -1288,7 +1288,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .custom-swal div.swal2-popup {
-  width: 90vw !important; /* Ajuste a largura conforme necessário */
+  width: 60vw !important; /* Ajuste a largura conforme necessário */
 }
 
 #diagramaFather {
@@ -1304,7 +1304,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 div#diagrama {
-  min-height: 500px;
+  min-height: 300px;
 }
 
 /* Pages
