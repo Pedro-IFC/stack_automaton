@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header>
-        <div class="al-container">
-            <h1>Autômatos de Pilha Determinísticos</h1>
-        </div>
-    </header>
+    <?php include "./header.php" ?>
     <section class="form">
         <div class="left">
             <form id="form" action="action.php" method="POST">
@@ -38,9 +34,6 @@
         </div>
     </section>
     <div id="diagramaFather"></div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.3/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <script type="module" src="./public/js/app.js"></script>
+    <?php include "./footer.php" ?>
 </body>
 </html>

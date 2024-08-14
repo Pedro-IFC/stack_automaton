@@ -1,8 +1,8 @@
-# Sistema de Autômatos de Pilha Determinísticos
+# Sistema de GerenciadorAPD 
 
 ## Visão Geral
 
-O sistema de Autômatos de Pilha Determinísticos permite aos usuários criar, editar e validar autômatos de pilha. A interface é composta por uma página inicial, uma página de edição interna, e diversas funções para validação e geração de autômatos formais.
+O sistema de GerenciadorAPD  permite aos usuários criar, editar e validar autômatos de pilha. A interface é composta por uma página inicial, uma página de edição interna, e diversas funções para validação e geração de autômatos formais.
 
 ## Página Inicial
 

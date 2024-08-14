@@ -441,6 +441,17 @@ function gerarDiagramaAutomato() {
 		});
 	});
 }
+function setCookie(name, value, days) {
+	const date = new Date();
+	date.setTime(date.getTime() + (days*24*60*60*1000));
+	const expires = "expires=" + date.toUTCString();
+	document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+function getCookie(name) {
+	const value = "; " + document.cookie;
+	const parts = value.split("; " + name + "=");
+	if (parts.length === 2) return parts.pop().split(";").shift();
+}
 document.addEventListener('DOMContentLoaded', (event) => {
 	if(document.getElementById('validate')){
 		document.getElementById('validate').addEventListener('click', function(event) {
@@ -546,4 +557,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 			window.location.href="./interna.php";
 		})
 	}
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptCookiesBtn = document.getElementById("accept-cookies");
+    if (!getCookie("cookiesAccepted")) {
+        cookieBanner.style.display = "flex";
+    }else{
+        cookieBanner.style.display = "none";
+	}
+    acceptCookiesBtn.addEventListener("click", function() {
+        setCookie("cookiesAccepted", "true", 365);
+        cookieBanner.style.display = "none";
+    });
+	
+	const swiper = new Swiper('.swiper-equipe', {
+		slidesPerView: 3,
+		spaceBetween: 32,
+		loop: false,
+	  });
 });

@@ -652,6 +652,17 @@ function gerarDiagramaAutomato() {
     });
   });
 }
+function setCookie(name, value, days) {
+  var date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  var expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
 document.addEventListener('DOMContentLoaded', function (event) {
   if (document.getElementById('validate')) {
     document.getElementById('validate').addEventListener('click', function (event) {
@@ -758,6 +769,22 @@ document.addEventListener('DOMContentLoaded', function (event) {
       window.location.href = "./interna.php";
     });
   }
+  var cookieBanner = document.getElementById("cookie-banner");
+  var acceptCookiesBtn = document.getElementById("accept-cookies");
+  if (!getCookie("cookiesAccepted")) {
+    cookieBanner.style.display = "flex";
+  } else {
+    cookieBanner.style.display = "none";
+  }
+  acceptCookiesBtn.addEventListener("click", function () {
+    setCookie("cookiesAccepted", "true", 365);
+    cookieBanner.style.display = "none";
+  });
+  var swiper = new Swiper('.swiper-equipe', {
+    slidesPerView: 3,
+    spaceBetween: 32,
+    loop: false
+  });
 });
 
 /***/ }),

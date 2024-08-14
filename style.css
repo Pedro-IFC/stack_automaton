@@ -766,6 +766,24 @@
   src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmYUtfBBc4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* latin-ext */
+@font-face {
+  font-family: "New Amsterdam";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/newamsterdam/v1/YA9Vr02Y5lucHqUlbEe51kBtp7CMi8_Q.woff2) format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: "New Amsterdam";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/newamsterdam/v1/YA9Vr02Y5lucHqUlbEe51kBtp76Miw.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Global variables
 ========================================================================== */
 /* Mixins
@@ -1307,6 +1325,38 @@ div#diagrama {
   min-height: 300px;
 }
 
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #222;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.cookie-banner p {
+  margin: 0;
+  flex: 1;
+}
+
+.cookie-banner button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cookie-banner button:hover {
+  background-color: #45a049;
+}
+
 /* Pages
 ========================================================================== */
 header {
@@ -1320,8 +1370,12 @@ header {
   z-index: 9;
 }
 
-/* Footer
-========================================================================== */
+footer {
+  margin-top: 40px;
+  border-top: 1px solid #8B163B;
+  padding: 30px 0px;
+}
+
 /* Home
 ========================================================================== */
 body {
@@ -1385,10 +1439,17 @@ input[type=text] {
   }
 }
 
+.first-in {
+  padding-top: 120px;
+}
+
 .form, .listagem {
-  padding-top: 98px;
+  padding-top: 120px;
   display: flex;
   min-height: 100vh;
+}
+.form.noheight, .listagem.noheight {
+  min-height: 0;
 }
 @media screen and (max-width: 1250px) {
   .form, .listagem {
@@ -1467,10 +1528,10 @@ h1 {
 }
 
 h2 {
-  font-family: "Roboto";
-  color: #8B163B;
-  text-transform: uppercase;
-  font-size: 32px;
+  font-family: "Roboto" !important;
+  color: #8B163B !important;
+  text-transform: uppercase !important;
+  font-size: 32px !important;
 }
 
 button, .btn {
@@ -1569,4 +1630,50 @@ table td:not(:has(button)) {
 
 .controles {
   padding: 40px 0px;
+}
+
+.alternative-font {
+  font-family: "New Amsterdam" !important;
+}
+
+.font-upper {
+  font-size: 42px !important;
+}
+@media screen and (max-width: 1000px) {
+  .font-upper {
+    font-size: 28px !important;
+  }
+}
+
+.equipe {
+  padding-top: 40px;
+}
+
+.equipe .article a {
+  display: block;
+  margin-top: 20px;
+  color: #000;
+  transition: all 0.3s;
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-decoration: none;
+  font-weight: 500;
+}
+.equipe .article a::after {
+  transition: all 0.3s;
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: auto;
+  bottom: -2px;
+  background-color: #8B163B;
+  width: 0px;
+  height: 2px;
+}
+.equipe .article a:hover {
+  color: #8B163B;
+}
+.equipe .article a:hover::after {
+  width: 100%;
 }

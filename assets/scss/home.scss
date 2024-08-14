@@ -50,10 +50,17 @@ input[type="text"] {
     border-radius: 12px;
     cursor: pointer;
 }
+.first-in{
+    padding-top: 120px;
+
+}
 .form, .listagem{
-    padding-top: 98px;
+    padding-top: 120px;
     display: flex;
     min-height: 100vh;
+    &.noheight{
+        min-height: 0;
+    }
     @media screen and (max-width: 1250px) {
         flex-wrap: wrap;
     }
@@ -113,10 +120,10 @@ h1{
     }
 }
 h2{
-    font-family: "Roboto";
-    color: $primary-color;
-    text-transform: uppercase;
-    font-size: 32px;
+    font-family: "Roboto"!important;
+    color: $primary-color!important;
+    text-transform: uppercase!important;
+    font-size: 32px!important;
 }
 button, .btn{
     display: flex;
@@ -205,4 +212,45 @@ table{
 }
 .controles{
     padding: 40px 0px;
+}
+.alternative-font{
+    font-family: 'New Amsterdam'!important;
+}
+.font-upper{
+    font-size: 42px!important;
+    @media screen and (max-width: 1000px) {
+        font-size: 28px!important;
+    }
+}
+.equipe{
+    padding-top: 40px;
+}
+.equipe .article{
+    a{
+        display: block;
+        margin-top: 20px;
+        color: $black;
+        transition: all .3s;
+        position: relative;
+        width: fit-content;
+        text-decoration: none;
+        font-weight: 500;
+        &::after{
+            transition: all .3s;
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: auto;
+            bottom: -2px;
+            background-color: $primary-color;
+            width: 0px;
+            height: 2px;
+        }
+        &:hover{
+            color: $primary-color;
+            &::after{
+                width: 100%;
+            }
+        }
+    }
 }
